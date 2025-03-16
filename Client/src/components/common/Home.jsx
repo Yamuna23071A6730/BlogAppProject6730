@@ -3,7 +3,7 @@ import { userAuthorContextObj } from '../../contexts/UserAuthorContext'
 import { useUser } from '@clerk/clerk-react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
-
+import { motion } from 'framer-motion';
 
 function Home() {
   const { currentUser, setCurrentUser } = useContext(userAuthorContextObj)
@@ -12,14 +12,7 @@ function Home() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  // console.log("isSignedIn :", isSignedIn)
-   console.log("User :", user)
-  // console.log("isLolded :", isLoaded)
-
-
-
   async function onSelectRole(e) {
-    //clear error property
     setError('')
     const selectedRole = e.target.value;
     currentUser.role = selectedRole;
@@ -28,25 +21,19 @@ function Home() {
       if (selectedRole === 'author') {
         res = await axios.post('http://localhost:4000/author-api/author', currentUser)
         let { message, payload } = res.data;
-        // console.log(message, payload)
         if (message === 'author') {
           setCurrentUser({ ...currentUser, ...payload })
-          //save user to localstorage
-          localStorage.setItem("currentuser",JSON.stringify(payload))
-          // setError(null)
+          localStorage.setItem("currentuser", JSON.stringify(payload))
         } else {
           setError(message);
         }
       }
       if (selectedRole === 'user') {
-        console.log(currentUser)
         res = await axios.post('http://localhost:4000/user-api/user', currentUser)
         let { message, payload } = res.data;
-        console.log(message)
         if (message === 'user') {
           setCurrentUser({ ...currentUser, ...payload })
-           //save user to localstorage
-           localStorage.setItem("currentuser",JSON.stringify(payload))
+          localStorage.setItem("currentuser", JSON.stringify(payload))
         } else {
           setError(message);
         }
@@ -55,7 +42,6 @@ function Home() {
       setError(err.message);
     }
   }
-
 
   useEffect(() => {
     if (isSignedIn === true) {
@@ -69,85 +55,74 @@ function Home() {
     }
   }, [isLoaded])
 
-
-
   useEffect(() => {
-
     if (currentUser?.role === "user" && error.length === 0) {
       navigate(`/user-profile/${currentUser.email}`);
     }
     if (currentUser?.role === "author" && error.length === 0) {
-      console.log("first")
       navigate(`/author-profile/${currentUser.email}`);
     }
   }, [currentUser]);
 
-  // console.log("cu",currentUser)
-  //console.log("is loaded",isLoaded)
-
   return (
     <div className='container'>
-      {
-        isSignedIn === false && <div>
-          <img 
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTG1LW-o46L89kVB2prwNmWNpXYH5nU-2qeg&s" 
-            alt="Tech Insights" 
-            className="img-fluid mx-auto d-block w-100 mb-4" 
-            style={{ maxWidth: "600px" }} 
-          />
+      {isSignedIn === false && (
+        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }}>
+        <motion.img 
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTG1LW-o46L89kVB2prwNmWNpXYH5nU-2qeg&s" 
+          alt="Tech Insights" 
+          className="img-fluid mx-auto d-block w-100 mb-4" 
+          style={{ maxWidth: "600px" }} 
+          initial={{ scale: 0.8 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 0.5 }}
+        />
 
-          <h1>Your Destination for Innovation, Learning & Growth</h1>
-          <p className="lead">
-  Technology is rapidly evolving, shaping the way we work, learn, and innovate. At Tech Insights Hub, we bring you:
-</p>
-<ul className="lead">
-  <li>🔥 Latest trends in AI, Machine Learning, and Data Science</li>
-  <li>💻 Hands-on coding tutorials and software development insights</li>
-  <li>🔐 Cybersecurity updates and best practices for digital safety</li>
-  <li>📊 Business intelligence, data analytics, and visualization techniques</li>
-  <li>🚀 Career tips, industry insights, and expert guidance to help you grow</li>
-</ul>
-<p className="lead">
-  Whether you're a student, developer, or tech enthusiast, you'll find valuable content to enhance your skills and stay ahead in the ever-changing world of technology.
-</p>
+        <marquee behavior="scroll" direction="left" style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '20px' }}>
+          Your Destination for Innovation, Learning & Growth
+        </marquee>
+        
+        <motion.p className="lead" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1.5 }}>
+          Technology is rapidly evolving, shaping the way we work, learn, and innovate. At Tech Insights Hub, we bring you:
+        </motion.p>
+          <motion.ul className="lead" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 2 }}>
+            <li>🔥 Latest trends in AI, Machine Learning, and Data Science</li>
+            <li>💻 Hands-on coding tutorials and software development insights</li>
+            <li>🔐 Cybersecurity updates and best practices for digital safety</li>
+            <li>📊 Business intelligence, data analytics, and visualization techniques</li>
+            <li>🚀 Career tips, industry insights, and expert guidance to help you grow</li>
+          </motion.ul>
+          <motion.p className="lead" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 2.5 }}>
+            Whether you're a student, developer, or tech enthusiast, you'll find valuable content to enhance your skills and stay ahead in the ever-changing world of technology.
+          </motion.p>
+        </motion.div>
+      )}
 
-
-        </div>
-      }
-
-      {
-        isSignedIn === true &&
-        <div>
+      {isSignedIn === true && (
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }}>
           <div className='d-flex justify-content-evenly align-items-center bg-info p-3'>
-            <img src={user.imageUrl} width="100px" className='rounded-circle' alt="" />
-            <p className="display-6">{user.firstName}</p>
-            <p className="lead">{user.emailAddresses[0].emailAddress}</p>
+            <motion.img src={user.imageUrl} width="100px" className='rounded-circle' alt="" initial={{ scale: 0.8 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }} />
+            <motion.p className="display-6" initial={{ x: -50, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ duration: 0.8 }}>{user.firstName}</motion.p>
+            <motion.p className="lead" initial={{ x: 50, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ duration: 0.8 }}>{user.emailAddresses[0].emailAddress}</motion.p>
           </div>
-          <p className="lead">Select role</p>
+          <motion.p className="lead" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }}>Select role</motion.p>
           {error.length !== 0 && (
-            <p
-              className="text-danger fs-5"
-              style={{ fontFamily: "sans-serif" }}
-            >
+            <motion.p className="text-danger fs-5" style={{ fontFamily: "sans-serif" }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1.2 }}>
               {error}
-            </p>
+            </motion.p>
           )}
           <div className='d-flex role-radio py-3 justify-content-center'>
-
-            <div className="form-check me-4">
+            <motion.div className="form-check me-4" whileHover={{ scale: 1.1 }}>
               <input type="radio" name="role" id="author" value="author" className="form-check-input" onChange={onSelectRole} />
               <label htmlFor="author" className="form-check-label">Author</label>
-            </div>
-            <div className="form-check">
+            </motion.div>
+            <motion.div className="form-check" whileHover={{ scale: 1.1 }}>
               <input type="radio" name="role" id="user" value="user" className="form-check-input" onChange={onSelectRole} />
               <label htmlFor="user" className="form-check-label">User</label>
-            </div>
+            </motion.div>
           </div>
-        </div>
-
-
-
-      }
+        </motion.div>
+      )}
     </div>
   )
 }
