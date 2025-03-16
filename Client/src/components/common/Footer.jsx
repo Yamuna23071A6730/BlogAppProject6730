@@ -35,16 +35,16 @@ function Footer() {
               </h6>
               <ul className="list-unstyled footer-link mt-4">
                 <li>
-                  <a href="">Wikipedia </a>
+                  <a href="https://en.wikipedia.org/wiki/Blog">Wikipedia </a>
                 </li>
                 <li>
-                  <a href="">React blog</a>
+                  <a href="https://react.dev/blog">React blog</a>
                 </li>
                 <li>
-                  <a href="">Term &amp; Service</a>
+                  <a href="https://www.termsfeed.com/blog/terms-conditions-blogger-blogspot/">Term &amp; Service</a>
                 </li>
                 <li>
-                  <a href="">Angular dev</a>
+                  <a href="https://angular.dev/">Angular dev</a>
                 </li>
               </ul>
             </div>
@@ -58,7 +58,7 @@ function Footer() {
                   <a href="">Sign Up </a>
                 </li>
                 <li>
-                  <a href="">Login</a>
+                  <a href="">Signin</a>
                 </li>
                 <li>
                   <a href="">Terms of Services</a>
@@ -85,7 +85,7 @@ function Footer() {
       </div>
 
       <div className="text-center mt-5">
-        <p className="footer-alt mb-0 f-14">2024 © VNR, All Rights Reserved</p>
+        <p className="footer-alt mb-0 f-14">2025 © VNR, All Rights Reserved</p>
       </div>
     </footer>
   );
