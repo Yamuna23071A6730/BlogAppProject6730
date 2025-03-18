@@ -55,10 +55,10 @@ function Footer() {
               <h6 className="footer-heading text-uppercase text-white">Help</h6>
               <ul className="list-unstyled footer-link mt-4">
                 <li>
-                  <a href="">Sign Up </a>
+                  <a href="http://localhost:5173/signup">Sign Up </a>
                 </li>
                 <li>
-                  <a href="">Signin</a>
+                  <a href="http://localhost:5173/signin">Signin</a>
                 </li>
                 <li>
                   <a href="">Terms of Services</a>
